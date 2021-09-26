@@ -1,4 +1,4 @@
-package cn.mdm.masterui.wiget;
+package cn.mdm.masterui.wiget.pathmeasure;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,21 +6,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 
-/**
- * 新写自定义View时用来编写和测试的View
- */
-public class TestView extends View {
 
-    private Context mContext;
+public class PathView extends View {
     //线画笔
     private Paint linePaint;
     //背景线颜色
@@ -36,17 +30,16 @@ public class TestView extends View {
     //整条线的区间点集合
     private float[] points;
 
-    public TestView(Context context) {
+    public PathView(Context context) {
         this(context,null);
     }
 
-    public TestView(Context context, @Nullable AttributeSet attrs) {
+    public PathView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs,0);
     }
 
-    public TestView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PathView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.mContext = context;
         init();
     }
 
@@ -59,7 +52,7 @@ public class TestView extends View {
         lightLineColor = Color.GREEN;
     }
 
-    public TestView setPath(Path path){
+    public PathView setPath(Path path){
         initPath(path);
         return this;
     }
@@ -68,7 +61,7 @@ public class TestView extends View {
      * 设置背景线颜色
      * @return
      */
-    public TestView setDarkLineColor(int color){
+    public PathView setDarkLineColor(int color){
         if(color == 0) darkLineColor = Color.GRAY;
         darkLineColor = color;
         return this;
@@ -78,7 +71,7 @@ public class TestView extends View {
      * 设置前景线颜色
      * @return
      */
-    public TestView setLightLineColor(int color){
+    public PathView setLightLineColor(int color){
         if(color == 0) lightLineColor = Color.GREEN;
         lightLineColor = color;
         return this;
@@ -90,7 +83,7 @@ public class TestView extends View {
      * @param lineWidth
      * @return
      */
-    public TestView setLineWidth(float lineWidth){
+    public PathView setLineWidth(float lineWidth){
         if(lineWidth < 0) lineWidth = 2;
         linePaint.setStrokeWidth(lineWidth);
         return this;
@@ -102,7 +95,7 @@ public class TestView extends View {
      * @param end 百分比 结束位置  0-1f
      * @return
      */
-    public TestView setDarkLineProgress(float start,float end){
+    public PathView setDarkLineProgress(float start,float end){
         setLineProgress(start,end,true);
         return this;
     }
@@ -113,7 +106,7 @@ public class TestView extends View {
      * @param end 百分比 结束位置  0-1f
      * @return
      */
-    public TestView setLightLineProgress(float start,float end){
+    public PathView setLightLineProgress(float start,float end){
         setLineProgress(start,end,false);
         return this;
     }

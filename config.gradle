@@ -1,0 +1,28 @@
+ext {
+    android = [
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.3",
+            applicationId    : "cn.mdm.masterui",
+            minSdkVersion    : 19,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+    dependencies = [
+            "appcompat"             : 'androidx.appcompat:appcompat:1.2.0',
+            "baseform"              : 'baseform.android.huansi.net:baseform:20.3.5.3.x-SNAPSHOT',
+            "material"              : 'com.google.android.material:material:1.1.0',
+            "support-design"        : 'com.android.support:design:+',
+
+            //Rxjava
+            "rxjava"                : "io.reactivex.rxjava2:rxjava:2.1.6",
+            "rxandroid"             : "io.reactivex.rxjava2:rxandroid:2.0.1",
+            "rxrelay"               : "com.jakewharton.rxrelay2:rxrelay:2.0.0",
+
+            //Retrofit
+            "retrofit"              : "com.squareup.retrofit2:retrofit:2.3.0",
+            "retrofit-gson"         : "com.squareup.retrofit2:converter-gson:2.3.0",
+            "retrofit-adapter"      : "com.squareup.retrofit2:adapter-rxjava2:2.3.0",
+            "okhttp-log-interceptor": "com.squareup.okhttp3:logging-interceptor:3.8.0"
+    ]
+}

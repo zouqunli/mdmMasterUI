@@ -1,17 +1,19 @@
 plugins {
     id 'com.android.application'
 }
+def configAndroid = rootProject.ext.android
+def configDependencies = rootProject.ext.dependencies
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion configAndroid.compileSdkVersion
+    buildToolsVersion configAndroid.buildToolsVersion
 
     defaultConfig {
-        applicationId "cn.mdm.masterui"
-        minSdkVersion 19
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        applicationId configAndroid.applicationId
+        minSdkVersion configAndroid.minSdkVersion
+        targetSdkVersion configAndroid.targetSdkVersion
+        versionCode configAndroid.versionCode
+        versionName configAndroid.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,12 +28,43 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    //layout和drawable文件夹多层级的使用
+    def listSubFile ={
+        def folders = []
+        def drawableFile = 'src/main/res/drawable'
+        def layoutFile = 'src/main/res/layout'
+        def dFile = file(drawableFile).listFiles()
+        def lFiles = file(layoutFile).listFiles()
+        dFile.each {
+            item ->
+                if(item.isDirectory())
+                folders.add(item.absolutePath)
+        }
+        lFiles.each {
+            item ->
+                if(item.isDirectory())
+                folders.add(item.absolutePath)
+        }
+        folders.add(file(drawableFile).absolutePath)
+        folders.add(file(layoutFile).absolutePath)
+        folders.add(file(drawableFile).parentFile.absolutePath)
+        return folders
+    }
+
+    sourceSets{
+        main{
+            res.srcDirs = listSubFile()
+        }
+    }
 }
 
-dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.1.0'
+dependencies {
+    implementation configDependencies.appcompat
+    implementation configDependencies.baseform
+    implementation 'com.isanwenyu.highlight:highlight:1.8.0'
+    implementation configDependencies.material
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

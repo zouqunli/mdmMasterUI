@@ -1,18 +1,17 @@
-package cn.mdm.masterui;
+package cn.mdm.masterui.wiget.pathmeasure;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.graphics.Path;
 import android.os.Bundle;
 import android.widget.SeekBar;
 
-import cn.mdm.masterui.wiget.pathmeasure.PathMeasureAct;
+import androidx.appcompat.app.AppCompatActivity;
+
+import cn.mdm.masterui.R;
 import cn.mdm.masterui.wiget.TestView;
 
-public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class PathMeasureAct extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-    TestView testView;
+    TestView pathView;
     private float dStart;
     private float dEnd;
     private float lStart;
@@ -22,12 +21,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.act_pathmeasure);
 
-        findViewById(R.id.btnTest).setOnClickListener(v->{
-            startActivity(new Intent(this, PathMeasureAct.class));
-        });
-        testView = findViewById(R.id.testView);
+        pathView = findViewById(R.id.pathView);
 
         SeekBar darkStart = findViewById(R.id.darkStart);
         SeekBar darkEnd = findViewById(R.id.darkEnd);
@@ -40,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         lightStart.setOnSeekBarChangeListener(this);
         lightEnd.setOnSeekBarChangeListener(this);
 
-        testView.setPath(getMapPath());
+
+        pathView.setPath(getMapPath());
 
         int[] nums = {1,4,2,7};
         System.out.print(countPairs(nums,2,6));
@@ -74,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     }
 
 
+
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()){
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 lEnd = progress/100f;
                 break;
         }
-        testView.setDarkLineProgress(dStart,dEnd)
+        pathView.setDarkLineProgress(dStart,dEnd)
                 .setLightLineProgress(lStart,lEnd);
     }
 

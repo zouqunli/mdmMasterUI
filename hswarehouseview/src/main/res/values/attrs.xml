@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="colorViewLargeGroup_styleable">
+        <attr name="numColumns" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="ProgressViewLargeGroup_styleable">
+        <attr name="numCols" format="integer"/>
+        <attr name="numRows" format="integer"/>
+    </declare-styleable>
+</resources>

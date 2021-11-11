@@ -1,0 +1,34 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.novoda.bintray-release'
+apply from :'maven_push.gradle'
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.0"
+
+    defaultConfig {
+        minSdkVersion 12
+        targetSdkVersion 29
+        versionCode 10101
+        versionName "1.1.1"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+//publish {
+//    userOrg = 'wrbug'
+//    groupId = 'com.wrbug'
+//    artifactId = 'editspinner'
+//    publishVersion = '1.1.0'
+//    desc = 'editspinner'
+//    website = 'https://github.com/WrBug/editspinner'
+//}
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+}

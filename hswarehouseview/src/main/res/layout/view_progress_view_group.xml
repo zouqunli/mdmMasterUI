@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/apk/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/warehouse_fram">
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        tools:text="@string/app_name"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="11sp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#000000"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <net.huansi.hswarehouseview.widget.MultiProgressHView
+            android:id="@+id/cvView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="1px" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/subTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="@string/app_name"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="11sp"
+            android:includeFontPadding="false"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

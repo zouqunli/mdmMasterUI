@@ -13,7 +13,9 @@ import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 
-
+/**
+ * 炫酷划线demo 还不能怎么应用
+ */
 public class PathView extends View {
     //线画笔
     private Paint linePaint;

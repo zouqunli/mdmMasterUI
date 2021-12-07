@@ -11,7 +11,7 @@ import cn.mdm.masterui.wiget.TestView;
 
 public class PathMeasureAct extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-    TestView pathView;
+    PathView pathView;
     private float dStart;
     private float dEnd;
     private float lStart;
@@ -21,7 +21,7 @@ public class PathMeasureAct extends AppCompatActivity implements SeekBar.OnSeekB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_pathmeasure);
+        setContentView(R.layout.frg_pathmeasure);
 
         pathView = findViewById(R.id.pathView);
 

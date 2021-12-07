@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @date 创建时间 2021/9/26
  * @author qlzou
- * @Description  自定义图例view
+ * @Description  新自定义图例view
  * @Version 1.0
  */
 public class MyLegendView extends View {

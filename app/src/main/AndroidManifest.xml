@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Masterui">
+        android:theme="@style/Theme.MasterUi">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".wiget.pathmeasure.PathMeasureAct"/>
+        <activity android:name=".wiget.step.StepActivity"/>
+        <activity android:name=".wiget.nettv.NetTvActivity"/>
     </application>
 
 </manifest>

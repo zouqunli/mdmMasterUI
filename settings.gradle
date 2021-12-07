@@ -1,2 +1,3 @@
 include ':app',':editspinner',':hswarehouseview'
 //rootProject.name = "masterui"
+include ':testLib'

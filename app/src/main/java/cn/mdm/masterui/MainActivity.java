@@ -1,122 +1,81 @@
 package cn.mdm.masterui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
-import android.graphics.Path;
 import android.os.Bundle;
-import android.widget.SeekBar;
+import android.view.Gravity;
+import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.mdm.masterui.adapter.GeneralAdapter;
+import cn.mdm.masterui.adapter.ViewHolder;
+import cn.mdm.masterui.bean.BaseBean;
+import cn.mdm.masterui.databinding.ActivityMainBinding;
+import cn.mdm.masterui.wiget.nettv.NetTvActivity;
+import cn.mdm.masterui.wiget.step.StepActivity;
+import cn.mdm.masterui.wiget.step.StepperView;
 import cn.mdm.masterui.wiget.pathmeasure.PathMeasureAct;
-import cn.mdm.masterui.wiget.TestView;
 
-public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends AppCompatActivity {
 
-    TestView testView;
-    private float dStart;
-    private float dEnd;
-    private float lStart;
-    private float lEnd;
-
-
+    private List<BaseBean> btnList = new ArrayList<BaseBean>(){{
+        add(new BaseBean("PathMeasure测试",1));
+        add(new BaseBean("editSpinner测试",2));
+        add(new BaseBean("仓库控件测试",3));
+        add(new BaseBean("新图例控件测试",4));
+        add(new BaseBean("自定义圆形进度条测试",5));
+        add(new BaseBean("NetTextView加载Html测试",6));
+        add(new BaseBean("自定义圆形进度条测试",7));
+        add(new BaseBean("步进器测试",8));
+    }};
+    private GeneralAdapter<BaseBean> adapter;
+    private ActivityMainBinding mBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        findViewById(R.id.btnTest).setOnClickListener(v->{
-            startActivity(new Intent(this, PathMeasureAct.class));
-        });
-        testView = findViewById(R.id.testView);
-
-        SeekBar darkStart = findViewById(R.id.darkStart);
-        SeekBar darkEnd = findViewById(R.id.darkEnd);
-        SeekBar lightStart = findViewById(R.id.lightStart);
-        SeekBar lightEnd = findViewById(R.id.lightEnd);
-
-
-        darkStart.setOnSeekBarChangeListener(this);
-        darkEnd.setOnSeekBarChangeListener(this);
-        lightStart.setOnSeekBarChangeListener(this);
-        lightEnd.setOnSeekBarChangeListener(this);
-
-        testView.setPath(getMapPath());
-
-        int[] nums = {1,4,2,7};
-        System.out.print(countPairs(nums,2,6));
-    }
-
-    private Path getMapPath(){
-        Path path = new Path();
-        path.moveTo(100,0);
-        path.rLineTo(-25,25);
-        path.rLineTo(0,25);
-        path.rLineTo(25,25);
-        path.rLineTo(-25,25);
-        path.rLineTo(0,25);
-        path.rLineTo(25,25);
-        path.rLineTo(-25,25);
-        path.rLineTo(0,25);
-        path.rLineTo(25,25);
-        path.rLineTo(-25,25);
-        path.rLineTo(0,25);
-        path.rLineTo(25,25);
-        path.rLineTo(-25,25);
-        path.rLineTo(0,25);
-        path.rLineTo(25,25);
-        path.rLineTo(-25,25);
-        path.rLineTo(0,25);
-        path.rLineTo(25,25);
-        path.rLineTo(-25,25);
-        path.rLineTo(0,25);
-        path.rLineTo(25,25);
-        return path;
-    }
-
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        switch (seekBar.getId()){
-            case R.id.darkStart:
-                dStart = progress/100f;
-                break;
-            case R.id.darkEnd:
-                dEnd = progress/100f;
-                break;
-            case R.id.lightStart:
-                lStart = progress/100f;
-                break;
-            case R.id.lightEnd:
-                lEnd = progress/100f;
-                break;
-        }
-        testView.setDarkLineProgress(dStart,dEnd)
-                .setLightLineProgress(lStart,lEnd);
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    public static int countPairs(int[] nums, int low, int high) {
-        int sum = 0;
-        StringBuffer sb = new StringBuffer();
-        for(int i = 0 ;i < nums.length;i++){
-            for(int j = i+1; j < nums.length ;j++){
-                int temp = nums[i] ^ nums[j];
-                if(low <= temp && temp <= high){
-                    sb.append("("+i+","+j+"):nums["+i+"] XOR nums["+j+"] = " + temp + "\n");
-                    sum++;
-                }
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        adapter = new GeneralAdapter<BaseBean>(this,btnList,R.layout.item_btn) {
+            @Override
+            public void initItemView(ViewHolder viewHolder, BaseBean info, int position) {
+                if(info == null)return;
+                Button btn = viewHolder.getView(R.id.btn);
+                btn.setText(info.getName());
+                btn.setOnClickListener(v -> switchPage(info.getId()));
             }
+        };
+        mBinding.lvBtn.setAdapter(adapter);
+        mBinding.imgHeader.setOnClickListener(v -> {
+            mBinding.drawerLayout.openDrawer(Gravity.LEFT);
+        });
+    }
+
+    private void switchPage(int index){
+        switch (index){
+            case 1:
+                startActivity(new Intent(this, PathMeasureAct.class));
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                startActivity(new Intent(this, NetTvActivity.class));
+                break;
+            case 7:
+                break;
+            case 8:
+                startActivity(new Intent(this, StepActivity.class));
+                break;
+            default:
+                break;
         }
-        System.out.print(sb.toString());
-        return sum;
     }
 }

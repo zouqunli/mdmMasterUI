@@ -15,6 +15,7 @@ import cn.mdm.masterui.adapter.GeneralAdapter;
 import cn.mdm.masterui.adapter.ViewHolder;
 import cn.mdm.masterui.bean.BaseBean;
 import cn.mdm.masterui.databinding.ActivityMainBinding;
+import cn.mdm.masterui.wiget.linechart.LineChartActivity;
 import cn.mdm.masterui.wiget.nettv.NetTvActivity;
 import cn.mdm.masterui.wiget.step.StepActivity;
 import cn.mdm.masterui.wiget.step.StepperView;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         add(new BaseBean("NetTextView加载Html测试",6));
         add(new BaseBean("自定义圆形进度条测试",7));
         add(new BaseBean("步进器测试",8));
+        add(new BaseBean("自定义动态折线图",9));
     }};
     private GeneralAdapter<BaseBean> adapter;
     private ActivityMainBinding mBinding;
@@ -73,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 8:
                 startActivity(new Intent(this, StepActivity.class));
+                break;
+            case 9:
+                startActivity(new Intent(this, LineChartActivity.class));
                 break;
             default:
                 break;

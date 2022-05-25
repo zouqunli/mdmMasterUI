@@ -19,6 +19,7 @@
         <activity android:name=".wiget.pathmeasure.PathMeasureAct"/>
         <activity android:name=".wiget.step.StepActivity"/>
         <activity android:name=".wiget.nettv.NetTvActivity"/>
+        <activity android:name=".wiget.linechart.LineChartActivity"/>
     </application>
 
 </manifest>

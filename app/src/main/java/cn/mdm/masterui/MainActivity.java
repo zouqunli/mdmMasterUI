@@ -1,12 +1,19 @@
 package cn.mdm.masterui;
 
+import static net.huansi.hswarehouseview.widget.StorehouseView.WareHouseMode.ONLY_SUBTITLE;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.widget.Button;
+
+import net.huansi.hswarehouseview.entity.HsWarehouseItemInfo;
+import net.huansi.hswarehouseview.widget.MultiProgressHView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
         mBinding.imgHeader.setOnClickListener(v -> {
             mBinding.drawerLayout.openDrawer(Gravity.LEFT);
         });
+
+//        mBinding.progress.setOneData(new MultiProgressHView.ProgressInfo(Color.RED,90f),-1,90f);
+//        mBinding.progress.setBorderColor(Color.GREEN).isBorderOver(false).isShowBoarder(true);
+//        mBinding.progress.setRectRadius(4f).setBorderWidth(3f);
+
+        mBinding.sv.showMode(ONLY_SUBTITLE).setSubTitle("hehahahh").getPV().setRectRadius(5f).setOneData(new MultiProgressHView.ProgressInfo(Color.RED,90),-1,100);
     }
 
     private void switchPage(int index){

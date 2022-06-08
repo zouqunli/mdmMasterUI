@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+    android:id="@+id/storeHouseView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/apk/tools"
     android:layout_width="match_parent"
@@ -21,6 +22,7 @@
         android:textSize="11sp"
         />
     <View
+        android:id="@+id/hBar"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#000000"/>
@@ -38,14 +40,13 @@
             android:id="@+id/subTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:text="@string/app_name"
-            android:textColor="#000000"
             android:gravity="center"
+            android:includeFontPadding="false"
             android:maxLines="1"
             android:singleLine="true"
+            android:textColor="#000000"
             android:textSize="11sp"
-            android:includeFontPadding="false"
-            />
+            tools:text="@string/app_name" />
     </RelativeLayout>
 
 </LinearLayout>

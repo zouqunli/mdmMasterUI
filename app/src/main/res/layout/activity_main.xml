@@ -34,6 +34,12 @@
              android:text="MdmUI"/>
 
       </androidx.appcompat.widget.Toolbar>
+      <net.huansi.hswarehouseview.widget.StorehouseView
+          android:id="@+id/sv"
+          android:layout_width="200dp"
+          android:layout_height="30dp"
+          android:layout_margin="10dp"/>
+
       <ListView
           android:id="@+id/lvBtn"
           android:layout_width="match_parent"

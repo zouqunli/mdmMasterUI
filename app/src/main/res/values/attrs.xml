@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义进度条 -->
+    <declare-styleable name="MyProgress">
+        <attr name="progress_color" format="color"/>
+        <attr name="progress_bg_color" format="color"/>
+        <attr name="corner_radius" format="float"/>
+        <attr name="max_value" format="float"/>
+        <attr name="progress" format="float"/>
+    </declare-styleable>
+</resources>

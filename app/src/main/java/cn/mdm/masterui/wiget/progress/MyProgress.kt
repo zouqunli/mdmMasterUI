@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
-import cn.hs.ck.R
+import cn.mdm.masterui.R
 import kotlin.properties.Delegates
 
 class MyProgress :View {

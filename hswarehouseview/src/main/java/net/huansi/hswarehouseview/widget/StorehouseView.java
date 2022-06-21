@@ -123,15 +123,16 @@ public class StorehouseView extends LinearLayout {
         return this;
     }
 
-    public StorehouseView setTitleTextSize(int size){
+    public StorehouseView setTitleTextSize(float size){
         mTvTitle.setTextSize(size);
         return this;
     }
 
-    public StorehouseView setSubTitleTextSize(int size){
+    public StorehouseView setSubTitleTextSize(float size){
         mSubTitle.setTextSize(size);
         return this;
     }
+
     public StorehouseView setTextColor(int color){
         setTitleTextColor(color);
         setSubTitleTextColor(color);
@@ -159,12 +160,12 @@ public class StorehouseView extends LinearLayout {
         mMtulProView.setBorderWidth(borderWidth);
         return this;
     }
+
     public StorehouseView setPVMargin(float margin){
         if(margin < 0)margin = 0;
         mMtulProView.setMargin(margin);
         return this;
     }
-
 
 
     public StorehouseView setPV(float margin){

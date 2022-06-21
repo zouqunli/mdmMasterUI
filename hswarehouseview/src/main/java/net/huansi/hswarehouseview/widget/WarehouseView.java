@@ -3,6 +3,7 @@ package net.huansi.hswarehouseview.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,19 @@ public class WarehouseView extends LinearLayout {
     private int numColumns = 3; //默认3列
     private int numRows = 10; //默10行
     protected WareHouseMode mode = null;
+    private float heightOffset = 0f;
+    //item设置
+    private Drawable itemBackground;
+    private float itemTitleTextSize;
+    private float itemSubTitleTextSize;
+//    private int itemTextColor = Color.BLACK;
+    private boolean itemIsShowBorder = false;
+    private boolean itemIsBorderOver = false;
+    private float itemBorderWidth = 0f;
+    private int itemBorderColor = Color.GREEN;
+    private float itemMargin = 0f;
+    private float itemRectRadius = 0f;
+
 
     private HsWhGeneralAdapter<HsWarehouseItemInfo> mAdapter;
     private List<HsWarehouseItemInfo> listGroup = new ArrayList<>();
@@ -65,12 +79,23 @@ public class WarehouseView extends LinearLayout {
                 if(info != null){
                     if(numRows > 0) {
                         ViewGroup.LayoutParams param = hsWhViewHolder.getConvertView().getLayoutParams();
-                        param.height = Math.round(mGvData.getMeasuredHeight() * 1.0f / numRows);
+                        param.height = Math.round(mGvData.getMeasuredHeight() * 1.0f / numRows + heightOffset);
                         hsWhViewHolder.getConvertView().setLayoutParams(param);
                     }
                     StorehouseView storehouseView = hsWhViewHolder.getView(R.id.cvgView);
                     storehouseView.showMode(mode).setTextColor(getColor(info.getTextColor()))
-                            .setInfo(info,mGvData.getMeasuredWidth()/numColumns);
+                            .setStoreBackground(itemBackground)
+                            .setTitleTextSize(itemTitleTextSize)
+                            .setSubTitleTextSize(itemSubTitleTextSize)
+//                            .setTextColor(itemTextColor)
+                            .setPVMargin(itemMargin)
+                            .getPV().isShowBoarder(itemIsShowBorder)
+                                    .isBorderOver(itemIsBorderOver)
+                                    .setBorderWidth(itemBorderWidth)
+                                    .setBorderColor(itemBorderColor)
+                                    .setRectRadius(itemRectRadius);
+//                    storehouseView.setInfo(info,mGvData.getMeasuredWidth()/numColumns);
+                    storehouseView.setInfo(info,0);
                 }
             }
         };
@@ -274,6 +299,88 @@ public class WarehouseView extends LinearLayout {
     public WarehouseView setMode(WareHouseMode mode){
         this.mode = mode;
         requestLayout();
+        return this;
+    }
+
+    /**
+     * 设置间隙
+     * @param vSpace
+     * @param hSpace
+     * @return
+     */
+    public WarehouseView setGridSpace(int vSpace,int hSpace){
+        if(vSpace > 0)mGvData.setVerticalSpacing(vSpace);
+        if(hSpace > 0)mGvData.setHorizontalSpacing(hSpace);
+        requestLayout();
+        return this;
+    }
+
+    public GridView getGridView(){
+      return mGvData;
+    }
+
+    //设置item的背景
+    public WarehouseView setItemBackground(Drawable background){
+        this.itemBackground = background;
+        return this;
+    }
+    //设置每个item高度的偏差值
+    public WarehouseView setHeightOffset(float offset){
+        this.heightOffset = offset;
+        return this;
+    }
+
+    //设置item的标题字体大小
+    public WarehouseView setTitleTextSize(float textSize){
+        this.itemTitleTextSize = textSize;
+        return this;
+    }
+
+    //设置item的副标题字体大小
+    public WarehouseView setItemSubTitleTextSize(float textSize){
+        this.itemSubTitleTextSize = textSize;
+        return this;
+    }
+
+//    //设置item的文字颜色
+//    public WarehouseView setItemTextColor(int textColor){
+//        this.itemTextColor = textColor;
+//        return this;
+//    }
+
+    //设置item的边框
+    public WarehouseView setItemIsShowBorder(boolean isShowBorder){
+        this.itemIsShowBorder = isShowBorder;
+        return this;
+    }
+
+    //设置item的内容覆盖边框
+    public WarehouseView setItemIsBorderOver(boolean isBorderOver){
+        this.itemIsBorderOver = isBorderOver;
+        return this;
+    }
+
+    //设置item的边框宽
+    public WarehouseView setItemBorderWidth(float borderWidth){
+        this.itemBorderWidth = borderWidth;
+        return this;
+    }
+
+    //设置item的边框颜色
+    public WarehouseView setItemBorderColor(int color){
+        this.itemBorderColor = color;
+        return this;
+    }
+
+    //设置item与周边的距离
+    public WarehouseView setItemMargin(float margin){
+        itemMargin = margin;
+        return this;
+    }
+
+    //设置item与周边的距离
+    public WarehouseView setItemRectRadius(float radius){
+        itemRectRadius = radius;
         return this;
     }
 }

@@ -28,6 +28,8 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
     private float itemWidth = 310;
     private float itemHeight = 310;
 
+    private float defaultItemWidth = 310;
+
     private float barWidth = 20; //默认柱子的宽度
     private float barHeight = 50; //柱子的高度
     private float cellWidth = 1;  //按照list的最大值算出的1点的 横向看宽度
@@ -38,7 +40,7 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
     public float margin = 0;
     private float rectRadius = 0f;
     protected boolean isShowBorder = false;
-    protected boolean isBorderOver = false;
+    protected  boolean isBorderOver = false;
 
     //柱状图的柱形矩形
     private RectF barRectF;
@@ -71,10 +73,10 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
 
         //默认初始化数据
         mDefaultList = new ArrayList<>();
-        mDefaultList.add((T) new ProgressInfo(Color.RED,10));
-        mDefaultList.add((T) new ProgressInfo(Color.GREEN,20));
-        mDefaultList.add((T) new ProgressInfo(Color.YELLOW,30));
-        mDefaultList.add((T) new ProgressInfo(Color.WHITE,40));
+//        mDefaultList.add((T) new ProgressInfo(Color.RED,10));
+//        mDefaultList.add((T) new ProgressInfo(Color.GREEN,20));
+//        mDefaultList.add((T) new ProgressInfo(Color.YELLOW,30));
+//        mDefaultList.add((T) new ProgressInfo(Color.WHITE,40));
         mList = mDefaultList;
     }
 
@@ -82,7 +84,7 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         itemHeight = getMeasuredHeight();
-        itemWidth = getMeasuredWidth();
+        defaultItemWidth = getMeasuredWidth();
     }
 
     @Override
@@ -92,11 +94,11 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
         float borderWidth = borderPaint.getStrokeWidth();
         if(isShowBorder){
             //因为drawRoundRect圆角矩形，设置圆角后我们画出来的矩形的线宽只有我们 setStrokeWidth设置的一半宽。
-            if(isBorderOver) canvas.drawRoundRect(new RectF(borderWidth/2,borderWidth/2,itemWidth - borderWidth/2,itemHeight-borderWidth/2),rectRadius,rectRadius,borderPaint);
+            if(isBorderOver) canvas.drawRoundRect(new RectF(borderWidth/2 + margin,borderWidth/2 + margin,itemWidth - borderWidth/2-margin,itemHeight-borderWidth/2-margin),rectRadius,rectRadius,borderPaint);
             drawRect(canvas,borderWidth);
-            if(!isBorderOver) canvas.drawRoundRect(new RectF(borderWidth/2,borderWidth/2,itemWidth - borderWidth/2,itemHeight-borderWidth/2),rectRadius,rectRadius,borderPaint);
+            if(!isBorderOver) canvas.drawRoundRect(new RectF(borderWidth/2+ margin,borderWidth/2+ margin,itemWidth - borderWidth/2-margin,itemHeight-borderWidth/2-margin),rectRadius,rectRadius,borderPaint);
         }else{
-            drawRect(canvas,borderWidth);
+            drawRect(canvas,0);
         }
         Log.i("MtulProgressHView",mList.get(0).toString());
     }
@@ -104,11 +106,11 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
     //画中间进度矩形
     private void drawRect(Canvas canvas,float borderWidth){
         float firstLeft = margin;
-        borderWidth += 1;
+//        borderWidth += 1;
         for (int j = 0; j < mList.size(); j++) {
             //计算出高度
             barWidth = cellWidth * mList.get(j).getNum();
-            barWidth = barWidth <= 0 ? 1 : barWidth;
+            barWidth = barWidth <= 0 ? 0 : barWidth;
 
             //设置颜色
             colorBarPaint.setColor(mList.get(j).getColor());
@@ -116,10 +118,12 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
             float barLeft = firstLeft;
             float top = margin;
             float right = firstLeft + barWidth;
-            float bottom = barHeight - margin;
-            //因为drawRoundRect圆角矩形，设置圆角后我们画出来的矩形的线宽只有我们 setStrokeWidth设置的一半宽。
-            barRectF.set(barLeft + borderWidth/2, top + borderWidth/2, right- borderWidth/2, bottom- borderWidth/2);
-            canvas.drawRoundRect(barRectF,rectRadius,rectRadius, colorBarPaint);
+            float bottom = barHeight;
+            if(barWidth > 0){
+                //因为drawRoundRect圆角矩形，设置圆角后我们画出来的矩形的线宽只有我们 setStrokeWidth设置的一半宽。
+                barRectF.set(barLeft + borderWidth/2, top + borderWidth/2, right- borderWidth/2, bottom- borderWidth/2);
+                canvas.drawRoundRect(barRectF,rectRadius,rectRadius, colorBarPaint);
+            }
             firstLeft += barWidth;
         }
     }
@@ -259,20 +263,20 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
      * @param list  数据源
      * @param maxNum 设置默认最大数据值
      */
-    public void setList(List<T> list, float itemWidth, float maxNum){
+    public void setList(List<T> list, float width, float maxNum){
         synchronized (this) {
             //大于等于0的才设置值
-            if(itemWidth >= 0){
-                this.itemWidth = itemWidth;
+            if(width > 0){
+                this.itemWidth = width;
             }else{
-                this.itemWidth = getMeasuredWidth();
+                this.itemWidth = defaultItemWidth;
             }
             if (list == null || list.size() <= 0) {
                 mList = mDefaultList;
             } else {
                 mList = list;
             }
-            barWidth = itemWidth - (2 * margin);  //获取柱状的宽度
+            barWidth = this.itemWidth - (2 * margin);  //获取柱状的宽度
             barHeight = itemHeight - (2 * margin); //获取柱状的高度 减去边框的高度
             int subSum = 0;
             for (IProgressInfo info : mList) {
@@ -285,7 +289,7 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
                 maxNum = 100;
             }
             cellWidth = barWidth / maxNum; //平均每num = 1 时的宽度
-            this.itemWidth = itemWidth;
+//            this.itemWidth = width;
             this.maxNum = maxNum;
             postInvalidate();
         }

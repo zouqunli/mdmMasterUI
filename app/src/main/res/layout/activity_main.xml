@@ -19,6 +19,8 @@
           android:background="?attr/colorPrimary"
           android:minHeight="?attr/actionBarSize"
           android:theme="@style/Theme.MasterUi">
+
+         <!-- 自定义图片的形状 -->
          <com.google.android.material.imageview.ShapeableImageView
              android:id="@+id/imgHeader"
              android:textColor="@color/white"
@@ -34,6 +36,19 @@
              android:text="MdmUI"/>
 
       </androidx.appcompat.widget.Toolbar>
+
+      <com.youth.banner.Banner
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+          android:id="@+id/banner"
+          android:layout_width="match_parent"
+          android:layout_height="200dp" />
+
+      <Button
+          android:id="@+id/btnNext"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="下一页"/>
+
       <net.huansi.hswarehouseview.widget.StorehouseView
           android:id="@+id/sv"
           android:layout_width="200dp"

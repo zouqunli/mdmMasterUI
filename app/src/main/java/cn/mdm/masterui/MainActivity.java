@@ -12,6 +12,13 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.widget.Button;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.indicator.CircleIndicator;
+
 import net.huansi.hswarehouseview.entity.HsWarehouseItemInfo;
 import net.huansi.hswarehouseview.widget.MultiProgressHView;
 
@@ -21,6 +28,7 @@ import java.util.List;
 import cn.mdm.masterui.adapter.GeneralAdapter;
 import cn.mdm.masterui.adapter.ViewHolder;
 import cn.mdm.masterui.bean.BaseBean;
+import cn.mdm.masterui.bean.ImageBean;
 import cn.mdm.masterui.databinding.ActivityMainBinding;
 import cn.mdm.masterui.wiget.linechart.LineChartActivity;
 import cn.mdm.masterui.wiget.nettv.NetTvActivity;
@@ -66,6 +74,31 @@ public class MainActivity extends AppCompatActivity {
 //        mBinding.progress.setRectRadius(4f).setBorderWidth(3f);
 
         mBinding.sv.showMode(ONLY_SUBTITLE).setSubTitle("hehahahh").getPV().setRectRadius(5f).setOneData(new MultiProgressHView.ProgressInfo(Color.RED,90),-1,100);
+        useBanner();
+    }
+
+    public void useBanner() {
+        //—————————————————————————如果你想偷懒，而又只是图片轮播————————————————————————
+        mBinding.banner.setAdapter(new BannerImageAdapter<ImageBean>(ImageBean.getImageList()) {
+                    @Override
+                    public void onBindView(BannerImageHolder holder, ImageBean data, int position, int size) {
+                        //图片加载自己实现
+                        Glide.with(holder.itemView)
+                                .load(data.getImageUrl())
+                                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                                .into(holder.imageView);
+                    }
+                })
+                .addBannerLifecycleObserver(this)//添加生命周期观察者
+                .setIndicator(new CircleIndicator(this),false) //false是不显示指示器
+                .setUserInputEnabled(false) //禁止滑动
+                .isAutoLoop(false)
+                .setCurrentItem(2);
+        //更多使用方法仔细阅读文档，或者查看demo
+
+        mBinding.btnNext.setOnClickListener(v -> {
+            mBinding.banner.setCurrentItem((mBinding.banner.getCurrentItem() + 1)%mBinding.banner.getItemCount());
+        });
     }
 
     private void switchPage(int index){

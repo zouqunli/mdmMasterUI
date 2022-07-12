@@ -1,7 +1,6 @@
 package net.huansi.hswarehouseview.widget;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -100,75 +99,79 @@ public class StorehouseView extends LinearLayout {
         return this;
     }
 
+    //设置分割线的颜色
     public StorehouseView setHBarColor(@ColorInt int color){
         mHBar.setBackgroundColor(color);
         return this;
     }
 
+    //设置分割线的厚度
     public StorehouseView setHBarWidth(float width){
         mHBar.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, (int) width));
         return this;
     }
 
-
+    //设置标题文字
     public StorehouseView setTitle(String title){
         if(title == null) title = "";
         mTvTitle.setText(title);
         return this;
     }
 
+    //设置副标题文字
     public StorehouseView setSubTitle(String subTitle){
         if(subTitle == null) subTitle ="";
         mSubTitle.setText(subTitle);
         return this;
     }
 
+    //设置标题字体大小
     public StorehouseView setTitleTextSize(float size){
         mTvTitle.setTextSize(size);
         return this;
     }
 
+    //设置副标题字体大小
     public StorehouseView setSubTitleTextSize(float size){
         mSubTitle.setTextSize(size);
         return this;
     }
 
+    //统一设置字体颜色
     public StorehouseView setTextColor(int color){
         setTitleTextColor(color);
         setSubTitleTextColor(color);
         return this;
     }
 
+    //设置标题的颜色
     public StorehouseView setTitleTextColor(int color){
         mTvTitle.setTextColor(color);
         return this;
     }
 
+    //设置进度条上的标题颜色
     public StorehouseView setSubTitleTextColor(int color){
         mSubTitle.setTextColor(color);
         return this;
     }
 
 
+    //整个view的背景图
     public StorehouseView setStoreBackground(Drawable background){
         mStoreHouseView.setBackground(background);
         return this;
     }
 
+    //设置进度条的边框的宽度
     public StorehouseView setPVBorderWidth(float borderWidth){
         if(borderWidth < 0)borderWidth = 0;
         mMtulProView.setBorderWidth(borderWidth);
         return this;
     }
 
+    //设置进度条的边距
     public StorehouseView setPVMargin(float margin){
-        if(margin < 0)margin = 0;
-        mMtulProView.setMargin(margin);
-        return this;
-    }
-
-
-    public StorehouseView setPV(float margin){
         if(margin < 0)margin = 0;
         mMtulProView.setMargin(margin);
         return this;
@@ -190,7 +193,7 @@ public class StorehouseView extends LinearLayout {
      * 设置信息
      * @param info
      */
-    public void setInfo(HsWarehouseItemInfo info, float proViewWidth){
+    public StorehouseView setInfo(HsWarehouseItemInfo info, float proViewWidth){
         if(info == null){
             setTitle("");
             setSubTitle("");
@@ -200,21 +203,24 @@ public class StorehouseView extends LinearLayout {
             setSubTitle(info.getSubTitle());
             mMtulProView.setList(info.getProgressInfos(),proViewWidth,info.getMaxValue());
         }
+        return this;
     }
 
-    public <T extends MultiProgressHView.IProgressInfo> void setDataList(List<T> list,float max){
+    public <T extends MultiProgressHView.IProgressInfo> StorehouseView setDataList(List<T> list,float max){
         if(list == null || list.isEmpty()){
             mMtulProView.setList(null,-1,max);
         }else{
             mMtulProView.setList(list,-1,max);
         }
+        return this;
     }
 
-    public <T extends MultiProgressHView.IProgressInfo> void setDataInfo(T info,float max){
+    public <T extends MultiProgressHView.IProgressInfo> StorehouseView setDataInfo(T info,float max){
         if(info == null){
             mMtulProView.setList(null,-1,max);
         } else{
             mMtulProView.setOneData(info,-1,max);
         }
+        return this;
     }
 }

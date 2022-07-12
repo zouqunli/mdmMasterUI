@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+
+import net.huansi.hswarehouseview.IWarehouseListener;
 import net.huansi.hswarehouseview.R;
 import net.huansi.hswarehouseview.adapter.HsWhGeneralAdapter;
 import net.huansi.hswarehouseview.adapter.HsWhViewHolder;
@@ -29,25 +31,25 @@ public class WarehouseView extends LinearLayout {
 
     protected GridView mGvData;
     protected HsWhLegendView mLegendView;
-    private int numColumns = 3; //默认3列
-    private int numRows = 10; //默10行
+    protected int numColumns = 3; //默认3列
+    protected int numRows = 10; //默10行
     protected WareHouseMode mode = null;
-    private float heightOffset = 0f;
+    protected float heightOffset = 0f;
     //item设置
-    private Drawable itemBackground;
-    private float itemTitleTextSize;
-    private float itemSubTitleTextSize;
+    protected Drawable itemBackground;
+    protected float itemTitleTextSize;
+    protected float itemSubTitleTextSize;
 //    private int itemTextColor = Color.BLACK;
-    private boolean itemIsShowBorder = false;
-    private boolean itemIsBorderOver = false;
-    private float itemBorderWidth = 0f;
-    private int itemBorderColor = Color.GREEN;
-    private float itemMargin = 0f;
-    private float itemRectRadius = 0f;
+    protected boolean itemIsShowBorder = false;
+    protected boolean itemIsBorderOver = false;
+    protected float itemBorderWidth = 0f;
+    protected int itemBorderColor = Color.GREEN;
+    protected float itemMargin = 0f;
+    protected float itemRectRadius = 0f;
 
-
-    private HsWhGeneralAdapter<HsWarehouseItemInfo> mAdapter;
-    private List<HsWarehouseItemInfo> listGroup = new ArrayList<>();
+    protected HsWhGeneralAdapter<HsWarehouseItemInfo> mAdapter;
+    protected List<HsWarehouseItemInfo> listGroup = new ArrayList<>();
+    private IWarehouseListener mListener;
 
     public WarehouseView(Context context) {
         super(context);
@@ -70,7 +72,7 @@ public class WarehouseView extends LinearLayout {
     /**
      * 初始化
      */
-    private void init(Context context) {
+    protected void init(Context context) {
         initView(context);
         mGvData.setNumColumns(numColumns); //设置列数
         mAdapter = new HsWhGeneralAdapter<HsWarehouseItemInfo>(context,listGroup,R.layout.item_ware_house) {
@@ -82,30 +84,37 @@ public class WarehouseView extends LinearLayout {
                         param.height = Math.round(mGvData.getMeasuredHeight() * 1.0f / numRows + heightOffset);
                         hsWhViewHolder.getConvertView().setLayoutParams(param);
                     }
-                    StorehouseView storehouseView = hsWhViewHolder.getView(R.id.cvgView);
-                    storehouseView.showMode(mode).setTextColor(getColor(info.getTextColor()))
-                            .setStoreBackground(itemBackground)
-                            .setTitleTextSize(itemTitleTextSize)
-                            .setSubTitleTextSize(itemSubTitleTextSize)
-//                            .setTextColor(itemTextColor)
-                            .setPVMargin(itemMargin)
-                            .getPV().isShowBoarder(itemIsShowBorder)
-                                    .isBorderOver(itemIsBorderOver)
-                                    .setBorderWidth(itemBorderWidth)
-                                    .setBorderColor(itemBorderColor)
-                                    .setRectRadius(itemRectRadius);
-//                    storehouseView.setInfo(info,mGvData.getMeasuredWidth()/numColumns);
-                    storehouseView.setInfo(info,0);
+                    configStorehouseView(hsWhViewHolder.getView(R.id.cvgView),info);
                 }
             }
         };
         mGvData.setAdapter(mAdapter);
     }
 
-    private void initView(Context context) {
+    protected void initView(Context context) {
         View view = inflate(context, R.layout.view_progress_view_large_group,this);
         mGvData = view.findViewById(R.id.gvData);
         mLegendView = view.findViewById(R.id.hsLegend);
+    }
+
+    //配置库位view
+    protected StorehouseView configStorehouseView(StorehouseView sView, HsWarehouseItemInfo info) {
+        if(mListener == null) {
+            sView.showMode(mode).setTextColor(getColor(info.getTextColor()))
+                    .setStoreBackground(itemBackground)
+                    .setTitleTextSize(itemTitleTextSize)
+                    .setSubTitleTextSize(itemSubTitleTextSize)
+                    .setPVMargin(itemMargin)
+                    .setInfo(info, 0)
+                    .getPV().isShowBoarder(itemIsShowBorder)
+                    .isBorderOver(itemIsBorderOver)
+                    .setBorderWidth(itemBorderWidth)
+                    .setBorderColor(itemBorderColor)
+                    .setRectRadius(itemRectRadius);
+        }else{
+            mListener.configStorehouseView(sView,info);
+        }
+        return sView;
     }
 
     private int getColor(String color){
@@ -383,4 +392,11 @@ public class WarehouseView extends LinearLayout {
         itemRectRadius = radius;
         return this;
     }
+
+    //设置接口
+    public WarehouseView setListener(IWarehouseListener listener){
+        this.mListener = listener;
+        return this;
+    }
+
 }

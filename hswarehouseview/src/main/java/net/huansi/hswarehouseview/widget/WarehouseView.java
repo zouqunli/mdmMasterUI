@@ -99,19 +99,18 @@ public class WarehouseView extends LinearLayout {
 
     //配置库位view
     protected StorehouseView configStorehouseView(StorehouseView sView, HsWarehouseItemInfo info) {
-        if(mListener == null) {
-            sView.showMode(mode).setTextColor(getColor(info.getTextColor()))
-                    .setStoreBackground(itemBackground)
-                    .setTitleTextSize(itemTitleTextSize)
-                    .setSubTitleTextSize(itemSubTitleTextSize)
-                    .setPVMargin(itemMargin)
-                    .setInfo(info, 0)
-                    .getPV().isShowBoarder(itemIsShowBorder)
-                    .isBorderOver(itemIsBorderOver)
-                    .setBorderWidth(itemBorderWidth)
-                    .setBorderColor(itemBorderColor)
-                    .setRectRadius(itemRectRadius);
-        }else{
+        sView.showMode(mode).setTextColor(getColor(info.getTextColor()))
+                .setStoreBackground(itemBackground)
+                .setTitleTextSize(itemTitleTextSize)
+                .setSubTitleTextSize(itemSubTitleTextSize)
+                .setPVMargin(itemMargin)
+                .getPV().isShowBoarder(itemIsShowBorder)
+                .isBorderOver(itemIsBorderOver)
+                .setBorderWidth(itemBorderWidth)
+                .setBorderColor(itemBorderColor)
+                .setRectRadius(itemRectRadius);
+        sView.setInfo(info, 0);
+        if(mListener != null) {
             mListener.configStorehouseView(sView,info);
         }
         return sView;

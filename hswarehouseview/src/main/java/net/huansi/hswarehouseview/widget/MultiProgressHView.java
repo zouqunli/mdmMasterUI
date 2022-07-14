@@ -84,7 +84,11 @@ public class MultiProgressHView<T extends MultiProgressHView.IProgressInfo> exte
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         itemHeight = getMeasuredHeight();
-        defaultItemWidth = getMeasuredWidth();
+        if(getMeasuredWidth() != defaultItemWidth){
+            defaultItemWidth = getMeasuredWidth();
+            //重新计算
+            setList(mList,defaultItemWidth,maxNum);
+        }
     }
 
     @Override

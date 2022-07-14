@@ -193,7 +193,7 @@ public class StorehouseView extends LinearLayout {
      * 设置信息
      * @param info
      */
-    public StorehouseView setInfo(HsWarehouseItemInfo info, float proViewWidth){
+    public void setInfo(HsWarehouseItemInfo info, float proViewWidth){
         if(info == null){
             setTitle("");
             setSubTitle("");
@@ -203,7 +203,6 @@ public class StorehouseView extends LinearLayout {
             setSubTitle(info.getSubTitle());
             mMtulProView.setList(info.getProgressInfos(),proViewWidth,info.getMaxValue());
         }
-        return this;
     }
 
     public <T extends MultiProgressHView.IProgressInfo> StorehouseView setDataList(List<T> list,float max){

@@ -11,6 +11,9 @@ import android.view.animation.AnticipateInterpolator
 import cn.mdm.masterui.R
 import kotlin.properties.Delegates
 
+/**
+ * 横向进度
+ */
 class MyProgress :View {
 
     /**

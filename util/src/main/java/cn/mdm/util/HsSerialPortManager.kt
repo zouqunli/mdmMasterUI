@@ -14,8 +14,12 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
     //初始化
     private var mSerialPortManager:SerialPortManager = SerialPortManager()
     //是否打开
-    var isOpen = false
+    private var isOpen = false
+    //两次扫码的间隔时间 以防短时间多次扫码，默认设置为1秒
+    var intervalTime = 1000L
 
+    //记录每次扫码的开始时间
+    private var startTime = 0L
     /**
      * 打开串口
      * @param dataReceived 监听串口读取数据
@@ -27,7 +31,11 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
     fun openSerialPort(dataReceived: ((bytes:ByteArray)->Unit)?,dataSent:((bytes:ByteArray)->Unit)?=null,
                        openSuccess:((file: File)->Unit)?=null,
                        error:((file: File, status: Status)->Unit)?=null):HsSerialPortManager{
-        if(isOpen)return this
+        if(isOpen){
+            //若是已经打开了，就直接设置到监听中
+            setOnDataListener(dataReceived,dataSent)
+            return this
+        }
         mSerialPortManager.setOnOpenSerialPortListener(object : OnOpenSerialPortListener{
             override fun onSuccess(file: File) {
                 if(openSuccess!= null)openSuccess(file)
@@ -50,7 +58,10 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
     fun setOnDataListener(dataReceived: ((bytes:ByteArray)->Unit)?,dataSent:((bytes:ByteArray)->Unit)?=null):HsSerialPortManager{
         mSerialPortManager.setOnSerialPortDataListener(object : OnSerialPortDataListener{
             override fun onDataReceived(bytes: ByteArray?) {
-                if(dataReceived != null)dataReceived(bytes?: ByteArray(0))
+                if(System.currentTimeMillis() - startTime > intervalTime) {
+                    startTime = System.currentTimeMillis()
+                    if (dataReceived != null) dataReceived(bytes ?: ByteArray(0))
+                }
             }
 
             override fun onDataSent(bytes: ByteArray?) {
@@ -104,7 +115,6 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
             return result
         }
 
-        //转化为16进制字符串
         @JvmStatic
         fun bytesToHexString(src: ByteArray?): String {
             val stringBuilder = StringBuilder()
@@ -118,7 +128,6 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
             return stringBuilder.toString()
         }
 
-        //16进制字符串转化为ASCII码(字符串)
         @JvmStatic
         fun convertHexToASCII(hex: String): String {
             return try {
@@ -139,6 +148,7 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
                 ""
             }
         }
+
         //Ascii码转化为16进制字符串
         @JvmStatic
         fun convertASCIIToHex(str: String): String {

@@ -1,6 +1,5 @@
 package cn.mdm.util
 
-import android.text.TextUtils
 import android.util.Log
 import com.kongqw.serialportlibrary.SerialPortManager
 import com.kongqw.serialportlibrary.listener.OnOpenSerialPortListener
@@ -48,6 +47,7 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
         isOpen = mSerialPortManager.openSerialPort(File(path),baudRate)
         return this
     }
+    var index = 0
 
     /**
      * 设置串口数据监听器
@@ -61,6 +61,7 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
                 if(System.currentTimeMillis() - startTime > intervalTime) {
                     startTime = System.currentTimeMillis()
                     if (dataReceived != null) dataReceived(bytes ?: ByteArray(0))
+                    Log.i("setOnDataListener","次数${index++}")
                 }
             }
 
@@ -183,25 +184,15 @@ class HsSerialPortManager(var path:String = "/dev/ttyS2", var baudRate:Int = 960
          * 吊挂的系统 卡号
          */
         @JvmStatic
-        fun getDiaoGuaCardNo(hex: String): String? {
-            if (TextUtils.isEmpty(hex)) return ""
-            val sbTransform = java.lang.StringBuilder()
-            var i = 0
-            while (i < hex.length) {
-                if (hex.substring(i, i + 2).equals("10", ignoreCase = true) && i + 3 < hex.length &&
-                    Arrays.asList("02", "10", "03").contains(hex.substring(i + 2, i + 4))
-                ) {
-                    i += 2
-                    continue
-                }
-                sbTransform.append(hex, i, i + 2)
-                i += 2
+        fun getDiaoGuaCardNo(src: ByteArray): String? {
+            return try{
+                val asciiStr = convertHexToASCII(bytesToHexString(src))
+                //字符串就是ASCII码,截取前面的2个字符到最后一个字前的中间字符作为16进制字符串转化为10进制，作为卡号
+                return asciiStr.substring(2,asciiStr.length-1).toLong(16).toString()
+            }catch(e:Exception) {
+                Log.e("HsSerialPortManager",e.message.toString())
+                ""
             }
-            val cardNoHex = sbTransform.substring(18, 20) + sbTransform.substring(16, 18) +
-                    sbTransform.substring(14, 16) + sbTransform.substring(12, 14) +
-                    sbTransform.substring(10, 12)
-            return cardNoHex.toLong(16).toString()
         }
-
     }
 }
